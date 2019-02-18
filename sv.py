@@ -4,7 +4,7 @@ import sqlite3
 import threading
 import time
 
-data_base_name = "babyCry.db";
+data_base_name = "/var/www/html/babyCry.db";
 mutex = threading.Lock()
 count = 0
 class MyServer(socketserver.BaseRequestHandler):
