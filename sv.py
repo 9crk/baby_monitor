@@ -6,19 +6,17 @@ import time
 
 data_base_name = "/var/www/html/babyCry.db";
 mutex = threading.Lock()
-count = 0
+
 class MyServer(socketserver.BaseRequestHandler):
     def handle(self):
-        global count
         conn = self.request
         message = conn.recv(1024)
         if len(message) == 13:
-            #msg = message.decode('utf-8')
+            msg = message.decode('utf-8').strip()
             mutex.acquire()
-            count = count+1
-            nowTime = time.strftime('%Y-%m-%d %H%M%S',time.localtime(time.time()))
+            nowTime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
             c = dbc.cursor()
-            c.execute("INSERT INTO CRYREC (ID,DEVICE,TIME) VALUES ("+str(count)+",'"+message.decode('utf-8')+"','"+nowTime+"')");
+            c.execute("INSERT INTO CRYREC (DEVICE,TIME) VALUES ('"+message.decode('utf-8')+"','"+nowTime+"')");
             dbc.commit()
             mutex.release()
             print(message.decode('utf-8'))
