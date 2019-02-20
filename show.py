@@ -20,7 +20,7 @@ class ShowClass:
 
 def show(thisday):
     print(thisday)
-    data_base_name = "./babyCry.db";
+    data_base_name = "/var/www/html/babyCry.db";
     dbc = sqlite3.connect(data_base_name, check_same_thread=False)
     c = dbc.cursor()
     data = c.execute("select * from CRYREC");
@@ -35,7 +35,7 @@ def show(thisday):
     print y_data
     dbc.close()
 
-    bar = Bar("宝宝的动静轨迹",day)
+    bar = Bar("宝宝的动静轨迹",thisday)
     kwargs = dict(name = '柱形图',x_axis = x_data,y_axis = y_data)
     bar.add(**kwargs)
     bar.render('/var/www/html/bar01.html')

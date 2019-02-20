@@ -26,7 +26,7 @@ if os.path.exists(data_base_name) == False:
     print("Opened database successfully");
     c = dbc.cursor()
     c.execute("CREATE TABLE CRYREC(\
-       ID INT PRIMARY KEY     NOT NULL,\
+       ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,\
        DEVICE       TEXT,\
        TIME     TEXT\
        );")
@@ -36,5 +36,8 @@ else:
     dbc = sqlite3.connect(data_base_name, check_same_thread=False)
 
 if __name__ == "__main__":
-    server = socketserver.ThreadingTCPServer(('66.23.197.227', 8899, ), MyServer)
+    server = socketserver.ThreadingTCPServer(('66.23.197.227', 8899, ), MyServer,bind_and_activate = False)
+    server.allow_reuse_address = True
+    server.server_bind()
+    server.server_activate()
     server.serve_forever()
